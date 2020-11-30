@@ -35,6 +35,13 @@ export default function Orphanage() {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   useEffect(() => {
+    let myInit = {
+      method: 'GET',
+    };
+    fetch(`http://localhost:3333/orphanages/${params.id}`, myInit)
+      .then(response => response.json())
+      .then(data => console.log(data));
+
     api.get(`orphanages/${params.id}`).then(response => {
       setOrphanage(response.data);
     });
@@ -49,7 +56,10 @@ export default function Orphanage() {
       <Sidebar />
       <main>
         <div className="orphanage-details">
-          <img src={orphanage.images[activeImageIndex].url} alt={orphanage.name} />
+          <img
+            src={orphanage.images[activeImageIndex].url}
+            alt={orphanage.name}
+          />
 
           <div className="images">
             {orphanage.images.map((image, index) => {
@@ -58,7 +68,7 @@ export default function Orphanage() {
                   key={image.id}
                   className={activeImageIndex === index ? 'active' : ''}
                   type="button"
-                  onClick={(() => setActiveImageIndex(index))}
+                  onClick={() => setActiveImageIndex(index)}
                 >
                   <img src={image.url} alt={orphanage.name} />
                 </button>
@@ -84,11 +94,21 @@ export default function Orphanage() {
                 <TileLayer
                   url={`https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`}
                 />
-                <Marker interactive={false} icon={mapIcon} position={[orphanage.latitude, orphanage.longitude]} />
+                <Marker
+                  interactive={false}
+                  icon={mapIcon}
+                  position={[orphanage.latitude, orphanage.longitude]}
+                />
               </Map>
 
               <footer>
-                <a target="_blank" rel="nooponer noreferrer" href={`https://www.google.com.br/maps/dir/?api=1&destination=${orphanage.latitude},${orphanage.longitude}`}>Ver rotas no Google Maps</a>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={`https://www.google.com.br/maps/dir/?api=1&destination=${orphanage.latitude},${orphanage.longitude}`}
+                >
+                  Ver rotas no Google Maps
+                </a>
               </footer>
             </div>
 
@@ -109,14 +129,13 @@ export default function Orphanage() {
                   Atendemos <br />
                   fim de semana
                 </div>
-              )
-                : (
-                  <div className="open-on-weekends dont-open">
-                    <FiInfo size={32} color="#FF669D" />
-                    Não atendemos <br />
-                    fim de semana
-                  </div>
-                )}
+              ) : (
+                <div className="open-on-weekends dont-open">
+                  <FiInfo size={32} color="#FF669D" />
+                  Não atendemos <br />
+                  fim de semana
+                </div>
+              )}
             </div>
 
             <button type="button" className="contact-button">
