@@ -75,11 +75,9 @@ SSH URLs provide access to a Git repository via SSH, a secure protocol. If you h
 
 `yarn`
 
-Create your enviroment variables based on the examples of `.env.example`
-
 # :runner: Getting Started
 
-Run the following command in order to start the application in a development environment:
+After that, run the following command in order to start the application in a development environment:
 
 `yarn start`
 
